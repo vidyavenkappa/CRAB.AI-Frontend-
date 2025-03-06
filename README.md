@@ -1,6 +1,6 @@
 # CRAB.AI - Academic Paper Submission and Review Platform.
 
-####Streamline your academic paper submissions with our advanced AI-driven review system. Get expert feedback in days, not months.
+Streamline your academic paper submissions with our advanced AI-driven review system. Get expert feedback in days, not months.
 
 
 ## 🚀 Project Overview
