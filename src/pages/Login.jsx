@@ -17,24 +17,80 @@ export default function Login() {
         document.title = "Login - CRAB.AI";
     }, []);
 
+
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!username || !password) {
-            setError("Please fill in all fields");
+
+        // Trim and validate input
+        const trimmedUsername = username.trim();
+
+        // Comprehensive input validation
+        if (!trimmedUsername) {
+            setError("Username cannot be empty");
             return;
         }
 
-        setIsLoading(true);
+        if (!password) {
+            setError("Password cannot be empty");
+            return;
+        }
+
+        // Reset previous errors and set loading state
         setError("");
+        setIsLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:8000/users/login", { username, password });
+            // Detailed axios configuration
+            const response = await axios.post(
+                "http://localhost:8000/users/login",
+                {
+                    username: trimmedUsername,
+                    password
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    timeout: 5000 // 5 second timeout
+                }
+            );
+
+            // Store authentication details
             localStorage.setItem("role", response.data.role);
-            localStorage.setItem("userToken", "logged-in"); // Set a token for auth state
-            response.data.role === "student" ? navigate("/student-dashboard") : navigate("/reviewer-dashboard");
+            localStorage.setItem("userToken", response.data.access_token);
+
+            // Navigate based on user role
+            switch (response.data.role) {
+                case "student":
+                    navigate("/student-dashboard");
+                    break;
+                case "reviewer":
+                    navigate("/reviewer-dashboard");
+                    break;
+                default:
+                    setError("Unknown user role");
+            }
         } catch (error) {
-            setError("Invalid credentials. Please try again.");
+            // Comprehensive error handling
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                setError(
+                    error.response.data.detail ||
+                    error.response.data.message ||
+                    "Invalid credentials. Please try again."
+                );
+            } else if (error.request) {
+                // The request was made but no response was received
+                setError("No response from server. Please check your connection.");
+            } else {
+                // Something happened in setting up the request
+                setError("An unexpected error occurred. Please try again.");
+            }
+
+            // Optional: log error for debugging
+            console.error("Login error:", error);
         } finally {
+            // Always reset loading state
             setIsLoading(false);
         }
     };

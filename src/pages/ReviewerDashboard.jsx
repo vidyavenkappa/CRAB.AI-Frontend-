@@ -237,15 +237,15 @@ export default function ReviewerDashboard() {
                 )}
 
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h2 className="section-title mb-0">Paper Review Dashboard</h2>
-                    <motion.button
+                    <h2 className="section-title mb-0">Reviewer Dashboard</h2>
+                    {/* <motion.button
                         className="primary-button"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => window.location.href = "/organizer-dashboard"}
+                        onClick={() => window.location.href = "/reviewer-analytics"}
                     >
                         <i className="fas fa-chart-bar me-2"></i> View Analytics
-                    </motion.button>
+                    </motion.button> */}
                 </div>
                 <div className=" ">
                     <SearchBar

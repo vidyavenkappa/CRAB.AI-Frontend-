@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 import "./Home.css"; // We'll create this CSS file separately
 
 export default function Home() {
+    // Inside your component
+    const navigate = useNavigate();
+
     useEffect(() => {
         document.title = "CRAB.AI - AI-Powered Academic Paper Review";
     }, []);
@@ -102,6 +106,7 @@ export default function Home() {
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                         className="primary-button"
+                                        onClick={() => navigate('/signup')}
                                     >
                                         Get Started
                                     </motion.button>
@@ -415,6 +420,7 @@ export default function Home() {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className="cta-button"
+                                onClick={() => navigate('/signup')}
                             >
                                 Get Started Today
                             </motion.button>

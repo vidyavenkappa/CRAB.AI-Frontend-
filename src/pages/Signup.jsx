@@ -48,14 +48,21 @@ export default function Signup() {
         setError("");
 
         try {
-            await axios.post("http://localhost:8000/users/signup", {
-                username,
-                password,
-                role,
+            const payload = {
+                username: username.trim(),
+                password: password,
+                role: role, // Ensure this matches exactly with backend enum
                 conference: role === "reviewer" ? conference : null
+            };
+
+            console.log("Signup Payload:", payload); // Log payload for debugging
+
+            const response = await axios.post("http://localhost:8000/users/signup", payload, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
-            // Successful signup
             navigate("/login", {
                 state: {
                     message: "Account created successfully! Please log in.",
@@ -63,7 +70,11 @@ export default function Signup() {
                 }
             });
         } catch (error) {
-            const errorMessage = error.response?.data?.message || "Sign up failed. Please try again.";
+            const errorMessage = error.response?.data?.detail ||
+                error.response?.data?.message ||
+                "Sign up failed. Please try again.";
+
+            console.error("Full Error Response:", error.response);
             setError(errorMessage);
         } finally {
             setIsLoading(false);
