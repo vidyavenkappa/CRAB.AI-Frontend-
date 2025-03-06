@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import StudentDashboard from "./pages/StudentDashboard";
+import ReviewerDashboard from "./pages/ReviewerDashboard";
+import UploadPaper from "./pages/UploadPaper";
+import OrganizerDashboard from "./pages/OrganizerDashboard"
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header />
+      <div className="flex-grow-1 pt-5">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/student-dashboard" element={<StudentDashboard />} />
+          <Route path="/reviewer-dashboard" element={<ReviewerDashboard />} />
+          <Route path="/upload-paper" element={<UploadPaper />} />
+          <Route path="/organizer-dashboard" element={<OrganizerDashboard/>} />
+        </Routes>
+      </div>
+      <Footer />
+    </Router>
   );
 }
-
-export default App;

@@ -1,0 +1,16 @@
+.primary-button.active {
+    background-color: #4361ee;
+    color: white;
+    /* Additional active state styling */
+}
+
+.secondary-button {
+    background-color: transparent;
+    border: 1px solid #4361ee;
+    color: #4361ee;
+    /* Additional inactive state styling */
+}
+
+.btn-group .secondary-button:hover {
+    background-color: rgba(67, 97, 238, 0.1);
+}

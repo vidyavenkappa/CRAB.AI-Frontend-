@@ -1,0 +1,174 @@
+/* Custom tab styles for ReviewerDashboard */
+.tabs-wrapper {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.tabs-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.tab-button {
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 12px 32px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  outline: none !important;
+}
+
+.tab-button:hover {
+  color: #4361ee !important;
+}
+
+.tab-button.active {
+  color: #4361ee !important;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #4361ee;
+  border-radius: 3px 3px 0 0;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+/* Badge styles */
+.tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Enhance the paper card design */
+.paper-card {
+  transition: all 0.2s ease-in-out;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.paper-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Improve table design */
+.custom-table {
+  --bs-table-hover-bg: rgba(67, 97, 238, 0.03);
+  --bs-table-hover-color: inherit;
+}
+
+.custom-table th {
+  font-weight: 600;
+  color: #4f4f4f;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.custom-table td {
+  vertical-align: middle;
+  padding: 0.75rem 1rem;
+}
+
+/* Topic badge styling */
+.topic-badge {
+  background-color: rgba(67, 97, 238, 0.1);
+  color: #4361ee;
+  padding: 0.5rem 0.75rem;
+  border-radius: 50rem;
+  font-weight: 500;
+  font-size: 0.85rem;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Score badge styling */
+.score-badge {
+  padding: 0.5rem 0.75rem;
+  border-radius: 50rem;
+  font-weight: 500;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.score-badge-high {
+  background-color: #28a745;
+  color: white;
+}
+
+.score-badge-medium {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.score-badge-low {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Enhance pagination */
+.pagination .page-link {
+  color: #4361ee;
+  border-color: #e9ecef;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #4361ee;
+  border-color: #4361ee;
+}
+
+/* Search box styling */
+.search-box {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.search-box .form-control {
+  padding-left: 2.5rem;
+  border-radius: 50rem;
+  height: 48px;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #adb5bd;
+}
+
+/* Animation utilities */
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
