@@ -21,7 +21,8 @@ export default function App() {
           <Route path="/student-dashboard" element={<StudentDashboard />} />
           <Route path="/reviewer-dashboard" element={<ReviewerDashboard />} />
           <Route path="/upload-paper" element={<UploadPaper />} />
-          <Route path="/organizer-dashboard" element={<OrganizerDashboard/>} />
+          <Route path="/reviewer-analytics" element={<OrganizerDashboard/>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
       <Footer />
