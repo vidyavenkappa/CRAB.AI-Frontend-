@@ -7,6 +7,7 @@ export default function Header() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
 
 
@@ -42,7 +43,7 @@ export default function Header() {
                     whileHover={{ scale: 1.05 }}
                     className="d-flex align-items-center"
                 >
-                    <Link to={isLoggedIn ? "/dashboard" : "/"} className="navbar-brand fw-bold fs-4 d-flex align-items-center">
+                    <Link to={isLoggedIn && localStorage.hasOwnProperty('role') ? (localStorage.getItem('role') == "student" ? "/student-dashboard" : (localStorage.getItem('role') == "reviewer" ? "/reviewer-dashboard" : "/")) : "/"} className="navbar-brand fw-bold fs-4 d-flex align-items-center">
                         <div
                             className="me-2 d-flex align-items-center justify-content-center rounded-circle"
                             style={{
@@ -61,20 +62,22 @@ export default function Header() {
                     </Link>
                 </motion.div>
 
-                {/* Navigation Links */}
                 <button
                     className="navbar-toggler"
                     type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
+                    onClick={() => setIsNavbarOpen(!isNavbarOpen)}
+                    style={{ border: 'none', outline: 'none', color: 'white' }} // Remove default border
                 >
-                    <span className="navbar-toggler-icon"></span>
+                    <span className="navbar-toggler-icon" style={{
+                        filter: 'invert(1)',  // Makes icon white
+                        WebkitFilter: 'invert(1)', // Safari compatibility
+                    }} ></span>
                 </button>
 
-                <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <div className={`collapse navbar-collapse justify-content-end ${isNavbarOpen ? "show" : ""}`} id="navbarNav">
+
+
+                    {/* <div className="collapse navbar-collapse justify-content-end" id="navbarNav"> */}
                     <ul className="navbar-nav align-items-center">
                         {/* Only show Home and Upload Paper when logged in */}
                         {isLoggedIn && (
