@@ -35,7 +35,7 @@ const StudentSidebar = ({ username, papers, onViewPaper, onUpload }) => {
                     </div>
                     <h5 className="card-title">{username}</h5>
                     <p className="card-text text-muted">Student</p>
-                    <div className="d-grid gap-2">
+                    {/* <div className="d-grid gap-2">
                         <motion.button
                             className="primary-button"
                             onClick={onUpload}
@@ -44,7 +44,7 @@ const StudentSidebar = ({ username, papers, onViewPaper, onUpload }) => {
                         >
                             <span className="me-2">+</span> Upload New Paper
                         </motion.button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
