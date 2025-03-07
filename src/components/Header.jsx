@@ -18,6 +18,8 @@ export default function Header() {
 
     const handleLogout = () => {
         localStorage.removeItem('userToken');
+        localStorage.removeItem('role');
+        localStorage.removeItem('username');
         setIsLoggedIn(false);
         navigate('/'); // Navigate to home page after logout
     };
@@ -77,7 +79,6 @@ export default function Header() {
                 <div className={`collapse navbar-collapse justify-content-end ${isNavbarOpen ? "show" : ""}`} id="navbarNav">
 
 
-                    {/* <div className="collapse navbar-collapse justify-content-end" id="navbarNav"> */}
                     <ul className="navbar-nav align-items-center">
                         {/* Only show Home and Upload Paper when logged in */}
                         {isLoggedIn && (

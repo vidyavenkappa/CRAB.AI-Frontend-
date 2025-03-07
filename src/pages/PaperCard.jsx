@@ -31,9 +31,9 @@ const PaperCard = ({ paper, onView, onDelete }) => {
             <div className="card-body">
                 <div className="d-flex justify-content-between mb-3">
                     <span
-                        className={`badge ${paper.status === "Accepted"
+                        className={`badge ${paper.status === "Accept"
                             ? "text-bg-success"
-                            : paper.status === "Rejected"
+                            : paper.status === "Reject"
                                 ? "text-bg-danger"
                                 : "text-bg-warning"
                             }`}
@@ -52,7 +52,7 @@ const PaperCard = ({ paper, onView, onDelete }) => {
                 <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
                     <motion.button
                         className="secondary-button btn-sm"
-                        onClick={() => onView(paper.id)}
+                        onClick={() => onView(paper)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >

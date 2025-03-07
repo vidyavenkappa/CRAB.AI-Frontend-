@@ -89,11 +89,20 @@ export default function StudentDashboard() {
             if (response.ok) {
                 setPapers([...papers, result]);
                 setUploadAlert({ show: true, message: "Paper uploaded successfully!" });
+                setShowUploadModal(false);
+                setLoading(false)
+                fetchPapers();
             } else {
                 setUploadAlert({ show: true, message: "Failed to upload paper." });
+                setShowUploadModal(false);
+                fetchPapers();
+                setLoading(false)
             }
         } catch (error) {
             setUploadAlert({ show: true, message: "Server error. Try again." });
+            setShowUploadModal(false);
+            setLoading(false)
+            fetchPapers();
         }
 
         setSubmitting(false);
@@ -121,8 +130,9 @@ export default function StudentDashboard() {
 
 
 
-    const handleViewPaper = (paperId) => {
-        setSelectedPaperId(paperId);
+    const handleViewPaper = (paper) => {
+        setSelectedPaperId(paper.id);
+        setSelectedPaper(paper);
         setViewMode("detail");
     };
 

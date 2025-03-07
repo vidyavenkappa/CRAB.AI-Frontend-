@@ -6,6 +6,7 @@ const PaperDetails = ({ paperId, onBack, onDelete }) => {
     const [paper, setPaper] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isOpen, setIsOpen] = useState(true);
 
     useEffect(() => {
         const fetchPaperDetails = async () => {
@@ -14,6 +15,7 @@ const PaperDetails = ({ paperId, onBack, onDelete }) => {
                 const data = await response.json();
                 setPaper(data);
                 setLoading(false);
+                setError(null);
             } catch (error) {
                 setError("Failed to load paper details");
                 setLoading(false);
@@ -26,9 +28,9 @@ const PaperDetails = ({ paperId, onBack, onDelete }) => {
 
     const getStatusColor = (status) => {
         switch (status) {
-            case "Accepted":
+            case "Accept":
                 return "text-success";
-            case "Rejected":
+            case "Reject":
                 return "text-danger";
             case "In Review":
                 return "text-warning";
@@ -39,9 +41,9 @@ const PaperDetails = ({ paperId, onBack, onDelete }) => {
 
     const getStatusIcon = (status) => {
         switch (status) {
-            case "Accepted":
+            case "Accept":
                 return <span className="text-success">✓</span>;
-            case "Rejected":
+            case "Reject":
                 return <span className="text-danger">✗</span>;
             case "In Review":
                 return <span className="text-warning">⟳</span>;
@@ -69,41 +71,34 @@ const PaperDetails = ({ paperId, onBack, onDelete }) => {
                     >
                         <span className="me-2">←</span> Back to All Papers
                     </motion.button>
-                    <h4 className="section-title">{paper.title}</h4>
                 </div>
-                <motion.button
-                    className="btn btn-sm btn-outline-danger"
-                    onClick={() => onDelete(paper.id)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    <span className="me-1">🗑️</span> Delete
-                </motion.button>
             </div>
 
             <div className="card border-0 shadow-sm mb-4">
                 <div className="card-body">
+                    <h4 className="section-title">{paper.paper.title}</h4>
+                    <hr />
                     <div className="row mb-4">
                         <div className="col-md-6">
                             <p>
-                                <strong>Conference:</strong> {paper.conference}
+                                <strong>Conference:</strong> {paper.paper.conference}
                             </p>
                             <p>
-                                <strong>Uploaded:</strong> {paper.uploadDate}
+                                <strong>Uploaded:</strong> {paper.paper.uploadDate}
                             </p>
                         </div>
                         <div className="col-md-6">
                             <p>
                                 <strong>Status:</strong>
-                                <span className={`ms-2 ${getStatusColor(paper.status)}`}>
-                                    {getStatusIcon(paper.status)} {paper.status}
+                                <span className={`ms-2 ${getStatusColor(paper.paper.status)}`}>
+                                    {getStatusIcon(paper.paper.status)} {paper.paper.status}
                                 </span>
                             </p>
                             <p>
                                 <strong>Overall Score:</strong>
-                                {paper.score ? (
-                                    <span className={`ms-2 ${getScoreColor(paper.score)}`}>
-                                        {paper.score.toFixed(1)} / 10
+                                {paper.paper.score ? (
+                                    <span className={`ms-2 ${getScoreColor(paper.paper.max_score == 5 ? paper.paper.score * 2 : paper.paper.score)}`}>
+                                        {paper.paper.score.toFixed(1)} / {paper.paper.max_score.toFixed(1)}
                                     </span>
                                 ) : (
                                     <span className="ms-2 text-muted">Pending</span>
@@ -112,75 +107,62 @@ const PaperDetails = ({ paperId, onBack, onDelete }) => {
                         </div>
                     </div>
 
-                    <h5 className="mb-3">AI Reviews</h5>
                     {paper.reviews && paper.reviews.length > 0 ? (
-                        <div className="accordion mb-4" id="reviewsAccordion">
-                            {paper.reviews.map((review, index) => (
-                                <div className="accordion-item border-0 mb-3 shadow-sm" key={index}>
-                                    <h2 className="accordion-header" id={`heading${index}`}>
-                                        <button
-                                            className="accordion-button collapsed"
-                                            type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target={`#collapse${index}`}
-                                            aria-expanded="false"
-                                            aria-controls={`collapse${index}`}
+                        <div className="mb-4">
+                            <div className="accordion" id="reviewsAccordion">
+                                {paper.reviews.map((review, index) => (
+                                    <div className="accordion-item" key={index}>
+                                        <h2 className="accordion-header">
+                                            <button
+                                                className="accordion-button"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target={`#collapse${index}`}
+                                                aria-expanded="true"
+                                                aria-controls={`collapse${index}`}
+                                                onClick={() => setIsOpen(!isOpen)}
+                                            >
+                                                AI Reviews
+                                            </button>
+                                        </h2>
+                                        {isOpen && (<div
+                                            id={`collapse${index}`}
+                                            className="accordion-collapse collapse show"
+                                            data-bs-parent="#reviewsAccordion"
                                         >
-                                            <div className="d-flex justify-content-between align-items-center w-100 me-3">
-                                                <span>
-                                                    <strong>{review.model}</strong> Review
-                                                </span>
-                                                {review.score && (
-                                                    <span
-                                                        className={`badge ${getScoreColor(
-                                                            review.score
-                                                        )} bg-opacity-10 border ${getScoreColor(
-                                                            review.score
-                                                        )} text-dark`}
-                                                    >
-                                                        Score: {review.score.toFixed(1)}
-                                                    </span>
+                                            <div className="accordion-body">
+                                                <p>{review.content}</p>
+                                                {/* Strengths Section */}
+                                                {review.strengths?.length > 0 && (
+                                                    <div className="mb-3">
+                                                        <h6 className="text-success">Strengths:</h6>
+                                                        <ul className="mb-0">
+                                                            {review.strengths.map((strength, i) => (
+                                                                <li key={i}>{strength}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                                {/* Weaknesses Section */}
+                                                {review.weaknesses?.length > 0 && (
+                                                    <div>
+                                                        <h6 className="text-danger">Weaknesses:</h6>
+                                                        <ul className="mb-0">
+                                                            {review.weaknesses.map((weakness, i) => (
+                                                                <li key={i}>{weakness}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
                                                 )}
                                             </div>
-                                        </button>
-                                    </h2>
-                                    <div
-                                        id={`collapse${index}`}
-                                        className="accordion-collapse collapse"
-                                        aria-labelledby={`heading${index}`}
-                                        data-bs-parent="#reviewsAccordion"
-                                    >
-                                        <div className="accordion-body">
-                                            <p>{review.content}</p>
-                                            {review.strengths && review.strengths.length > 0 && (
-                                                <div className="mb-3">
-                                                    <h6 className="text-success">Strengths:</h6>
-                                                    <ul className="mb-0">
-                                                        {review.strengths.map((strength, i) => (
-                                                            <li key={i}>{strength}</li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            )}
-                                            {review.weaknesses && review.weaknesses.length > 0 && (
-                                                <div>
-                                                    <h6 className="text-danger">Weaknesses:</h6>
-                                                    <ul className="mb-0">
-                                                        {review.weaknesses.map((weakness, i) => (
-                                                            <li key={i}>{weakness}</li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            )}
-                                        </div>
+                                        </div>)}
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     ) : (
                         <div className="alert alert-info">
-                            No AI reviews available yet. Reviews are typically completed within 1-2 days after
-                            submission.
+                            No AI reviews available yet. Reviews are typically completed within 1-2 days after submission.
                         </div>
                     )}
 
