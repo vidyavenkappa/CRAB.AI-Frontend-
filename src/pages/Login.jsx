@@ -51,13 +51,14 @@ export default function Login() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    timeout: 5000 // 5 second timeout
+                    timeout: 30000
                 }
             );
 
             // Store authentication details
             localStorage.setItem("role", response.data.role);
             localStorage.setItem("userToken", response.data.access_token);
+            localStorage.setItem("username", response.data.username);
 
             // Navigate based on user role
             switch (response.data.role) {
