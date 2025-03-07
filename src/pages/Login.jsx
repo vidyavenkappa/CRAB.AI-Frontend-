@@ -42,7 +42,7 @@ export default function Login() {
         try {
             // Detailed axios configuration
             const response = await axios.post(
-                "http://localhost:8000/users/login",
+                `${process.env.REACT_APP_API_URL}/users/login`,
                 {
                     username: trimmedUsername,
                     password

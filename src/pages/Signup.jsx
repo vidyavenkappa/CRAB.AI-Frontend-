@@ -57,7 +57,7 @@ export default function Signup() {
 
             console.log("Signup Payload:", payload); // Log payload for debugging
 
-            const response = await axios.post("http://localhost:8000/users/signup", payload, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, payload, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
