@@ -162,39 +162,7 @@ const PaperDetails = ({ paper, onBack, onDelete }) => {
                         </div>
                     )}
 
-                    <h5 className="mb-3">Human Review</h5>
-                    {paper.humanReview ? (
-                        <div className="card bg-light border-0 mb-4">
-                            <div className="card-body">
-                                <div className="d-flex justify-content-between mb-3">
-                                    <h6 className="mb-0">
-                                        <strong>Reviewer:</strong> {paper.humanReview.reviewer}
-                                    </h6>
-                                    <span className="text-muted">{paper.humanReview.date}</span>
-                                </div>
-                                <p>{paper.humanReview.content}</p>
-                                <div className="d-flex justify-content-between align-items-center mt-3">
-                                    <span>
-                                        <strong>Decision:</strong>
-                                        <span
-                                            className={
-                                                paper.humanReview.decision === "Accept"
-                                                    ? "text-success ms-2"
-                                                    : "text-danger ms-2"
-                                            }
-                                        >
-                                            {paper.humanReview.decision}
-                                        </span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="alert alert-info">
-                            No human review available yet. Human reviewers typically complete their assessment
-                            after the AI reviews.
-                        </div>
-                    )}
+
                 </div>
             </div>
         </div>
