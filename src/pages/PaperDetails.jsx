@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const PaperDetails = ({ paper, onBack, onDelete }) => {
+
+const PaperDetails = ({ paperId, onBack, onDelete }) => {
+    const [paper, setPaper] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchPaperDetails = async () => {
+            try {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/students/1/papers/${paperId}`);
+                const data = await response.json();
+                setPaper(data);
+                setLoading(false);
+            } catch (error) {
+                setError("Failed to load paper details");
+                setLoading(false);
+            }
+        };
+        fetchPaperDetails();
+    }, [paperId]);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
+
     const getStatusColor = (status) => {
         switch (status) {
             case "Accepted":
@@ -161,7 +183,6 @@ const PaperDetails = ({ paper, onBack, onDelete }) => {
                             submission.
                         </div>
                     )}
-
 
                 </div>
             </div>
