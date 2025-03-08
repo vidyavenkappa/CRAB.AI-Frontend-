@@ -175,9 +175,9 @@ export default function StudentDashboard() {
                         exit={{ opacity: 0, y: -20 }}
                     >
                         <div className="d-flex align-items-center">
-                            <div className="spinner-border spinner-border-sm me-2 text-primary" role="status">
+                            {/* <div className="spinner-border spinner-border-sm me-2 text-primary" role="status">
                                 <span className="visually-hidden">Loading...</span>
-                            </div>
+                            </div> */}
                             {uploadAlert.message}
                         </div>
                         <button
