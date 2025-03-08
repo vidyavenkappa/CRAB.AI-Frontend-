@@ -45,8 +45,8 @@ const PaperCard = ({ paper, onView, onDelete }) => {
                 <h5 className="card-title">{paper.title}</h5>
                 <p className="card-text text-muted mb-3">Conference: {paper.conference}</p>
                 {paper && paper.score && paper.score !== null && (
-                    <p className={`mb-3 ${getScoreColor(paper.score)}`}>
-                        Score: <strong>{paper.score.toFixed(1)}/10</strong>
+                    <p className={`mb-3 ${getScoreColor(paper.paper.max_score == 5 ? paper.paper.score * 2 : paper.paper.score)}`}>
+                        Score: <strong>{paper.score.toFixed(1)}/{paper.max_score.toFixed(1)}</strong>
                     </p>
                 )}
                 <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
