@@ -199,7 +199,16 @@ export default function StudentDashboard() {
                                 setSelectedPaperId(paper.id);
                                 setViewMode("detail");
                             }}
-                            onUpload={() => setShowUploadModal(true)}
+                            onUpload={() => {
+                                if (papers && papers.length >= 5) {
+                                    setShowUploadModal(false)
+                                    setUploadAlert({ show: true, message: 'You have reached the upload limit of 3 papers. Please delete an existing paper to upload a new one.' })
+                                }
+
+                                else {
+                                    setShowUploadModal(true)
+                                }
+                            }}
                         />
                     ) : null}
 
