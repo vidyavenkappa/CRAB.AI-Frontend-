@@ -225,7 +225,7 @@ export default function StudentDashboard() {
                                 <div className="d-flex justify-content-between align-items-center mb-4">
                                     <h4 className="section-title mb-0">My Papers</h4>
                                     <motion.button
-                                        className={papers && papers.length >= 3 ? "text-muted:" : "primary-button"}
+                                        className={papers && papers.length >= 3 ? "disabled-button" : "primary-button"}
                                         onClick={() => setShowUploadModal(true)}
                                         whileHover={{ scale: 1.03 }}
                                         whileTap={{ scale: 0.98 }}

@@ -78,6 +78,23 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
   
+  .disabled-button {
+    background: linear-gradient(to right, #9298a4,#7c7979);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* transition: all 0.3s ease; */
+  }
+  
+  /* .disabled-button:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  } */
+
   .secondary-button {
     background: transparent;
     color: #1f2937;
