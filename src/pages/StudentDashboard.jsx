@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import './Home.css';
+import axios from "axios";
 
 // Import components
 import PaperCard from './PaperCard';
@@ -15,6 +16,7 @@ export default function StudentDashboard() {
     const [selectedPaper, setSelectedPaper] = useState(null);
     const [selectedPaperId, setSelectedPaperId] = useState(null);
     const [showUploadModal, setShowUploadModal] = useState(false);
+    const [conferences, setConferences] = useState([]);
     const [uploadForm, setUploadForm] = useState({
         conference: "",
         file: null,
@@ -25,15 +27,20 @@ export default function StudentDashboard() {
     const [uploadAlert, setUploadAlert] = useState({ show: false, message: '' });
     const name = localStorage.getItem('name') ? localStorage.getItem('name') : "John Doe"; // This would come from your auth context
 
-    const conferences = [
-        { value: "ICML", label: "International Conference on Machine Learning (ICML)" },
-        { value: "ICLR", label: "International Conference on Learning Representations (ICLR)" },
-        { value: "ACL", label: "Association for Computational Linguistics (ACL)" },
-        { value: "NeurIPS", label: "Neural Information Processing Systems (NeurIPS)" }
-    ];
     useEffect(() => {
         fetchPapers();
+        fetchConferences();
     }, []);
+
+    const fetchConferences = async () => {
+        axios.get(`${process.env.REACT_APP_API_URL}/conference/get-list`)
+            .then(response => {
+                setConferences(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching conferences:", error);
+            });
+    }
 
 
     const fetchPapers = async () => {

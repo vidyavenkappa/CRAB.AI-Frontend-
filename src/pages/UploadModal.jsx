@@ -28,18 +28,6 @@ const UploadModal = ({
                     </div>
                     <div className="modal-body">
                         <form onSubmit={handleSubmit}>
-                            {/* <div className="mb-3">
-                                <label htmlFor="title" className="form-label">Paper Title</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="title"
-                                    name="title"
-                                    value={uploadForm.title}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div> */}
                             <div className="mb-3">
                                 <label htmlFor="conference" className="form-label">Target Conference</label>
                                 <select
