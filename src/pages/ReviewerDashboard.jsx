@@ -15,7 +15,6 @@ export default function ReviewerDashboard() {
     const [activeTab, setActiveTab] = useState("needReview"); // "needReview", "accepted", "rejected"
     const [reviewerNote, setReviewerNote] = useState("");
     const [reviewGuidelines, setReviewGuidelines] = useState("");
-    const [reviewGuidelineFile, setReviewGuidelineFile] = useState("");
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
@@ -68,9 +67,6 @@ export default function ReviewerDashboard() {
         setReviewerNote(e.target.value);
     };
 
-    // const handleGuidelineUrlChange = (e) => {
-    //     // setReviewGuidelineUrl(e.target.value);
-    // };
 
     const handleDecision = (decision) => {
         // In a real app, you'd make an API call to update the paper status
@@ -165,22 +161,19 @@ export default function ReviewerDashboard() {
 
     const handleSubmitGuidelines = async () => {
         setIsSubmitting(true);
-        const formData = new FormData();
-
-        if (activeTabGuidelines === "text") {
-            formData.append("guidelines", reviewGuidelines);
-        } else if (activeTabGuidelines === "file" && reviewGuidelineFile) {
-            formData.append("file", reviewGuidelineFile);
+        const payload = {
+            user_id: parseInt(localStorage.getItem('user_id')),
+            conference_id: localStorage.getItem('conference_id'),
+            text: reviewGuidelines
         }
 
         try {
-            await axios.post("/api/review-guidelines", formData, {
-                headers: { "Content-Type": "multipart/form-data" }
+            await axios.post(`${process.env.REACT_APP_API_URL}/conference/upload_guidelines`, payload, {
+                headers: { "Content-Type": "application/json" }
             });
             alert("Review guidelines updated successfully!");
         } catch (error) {
             console.error("Error updating guidelines:", error);
-            alert("Failed to update review guidelines.");
         } finally {
             setIsSubmitting(false);
         }
@@ -244,6 +237,15 @@ export default function ReviewerDashboard() {
 
         // If using the existing filteredPapers logic, you'll just use this variable in your render method
     };
+
+    const handleFileGuidelines = (e) => {
+        e.preventDefault()
+        const reader = new FileReader()
+        reader.onload = async (e) => {
+            setReviewGuidelines(e.target.result)
+        };
+        reader.readAsText(e.target.files[0])
+    }
 
     return (
         <div className="home-container">
@@ -425,7 +427,7 @@ export default function ReviewerDashboard() {
                                                 <input
                                                     type="file"
                                                     className="form-control"
-                                                    onChange={(e) => setReviewGuidelineFile(e.target.files[0])}
+                                                    onChange={(e) => handleFileGuidelines(e)}
                                                 />
                                             </div>
                                         </div>

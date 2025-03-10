@@ -22,6 +22,8 @@ export default function Header() {
         localStorage.removeItem('username');
         localStorage.removeItem('name');
         localStorage.removeItem('user_id');
+        if (localStorage.hasOwnProperty('conference_id'))
+            localStorage.removeItem('conference_id');
         setIsLoggedIn(false);
         navigate('/'); // Navigate to home page after logout
     };

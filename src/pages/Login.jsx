@@ -61,6 +61,9 @@ export default function Login() {
             localStorage.setItem("userToken", response.data.access_token);
             localStorage.setItem("username", response.data.username);
             localStorage.setItem("user_id", response.data.user_id);
+            if (response.data.role == 'reviewer') {
+                localStorage.setItem("conference_id", response.data.conference);
+            }
 
             // Navigate based on user role
             switch (response.data.role) {
