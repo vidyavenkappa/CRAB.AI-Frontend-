@@ -6,25 +6,40 @@ import { motion } from "framer-motion";
 import "aos/dist/aos.css";
 
 export default function Signup() {
+    const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [role, setRole] = useState("student");
     const [conference, setConference] = useState("");
+    const [conferences, setConferences] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+    // useEffect(() => {
+    //     AOS.init({ duration: 800 });
+    //     document.title = "Sign Up - CRAB.AI";
+    // }, []);
     useEffect(() => {
         AOS.init({ duration: 800 });
         document.title = "Sign Up - CRAB.AI";
+
+        // Fetch conferences from API
+        axios.get(`${process.env.REACT_APP_API_URL}/conference/get-list`)
+            .then(response => {
+                setConferences(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching conferences:", error);
+            });
     }, []);
 
     const handleSignup = async (e) => {
         e.preventDefault();
 
         // Validation
-        if (!username || !password || !confirmPassword) {
+        if (!name || !username || !password || !confirmPassword) {
             setError("Please fill in all required fields");
             return;
         }
@@ -49,6 +64,7 @@ export default function Signup() {
 
         try {
             const payload = {
+                name: name.trim(),
                 username: username.trim(),
                 password: password,
                 role: role, // Ensure this matches exactly with backend enum
@@ -81,12 +97,6 @@ export default function Signup() {
         }
     };
 
-    const conferences = [
-        { value: "ICML", label: "International Conference on Machine Learning (ICML)" },
-        { value: "ICLR", label: "International Conference on Learning Representations (ICLR)" },
-        { value: "ACL", label: "Association for Computational Linguistics (ACL)" },
-        { value: "NeurIPS", label: "Neural Information Processing Systems (NeurIPS)" }
-    ];
 
     return (
         <div className="min-vh-100 d-flex align-items-center justify-content-center py-5"
@@ -129,6 +139,21 @@ export default function Signup() {
                                 )}
 
                                 <form onSubmit={handleSignup}>
+                                    <div className="mb-4">
+                                        <label htmlFor="username" className="form-label text-muted small fw-bold">NAME</label>
+                                        <motion.input
+                                            whileFocus={{ scale: 1.01 }}
+                                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                            type="text"
+                                            id="name"
+                                            className="form-control form-control-lg bg-light border-0"
+                                            style={{ borderRadius: "10px" }}
+                                            placeholder="Enter your Full Name"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            required
+                                        />
+                                    </div>
                                     <div className="mb-4">
                                         <label htmlFor="username" className="form-label text-muted small fw-bold">USERNAME</label>
                                         <motion.input

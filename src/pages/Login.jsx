@@ -56,9 +56,11 @@ export default function Login() {
             );
 
             // Store authentication details
+            localStorage.setItem("name", response.data.name);
             localStorage.setItem("role", response.data.role);
             localStorage.setItem("userToken", response.data.access_token);
             localStorage.setItem("username", response.data.username);
+            localStorage.setItem("user_id", response.data.user_id);
 
             // Navigate based on user role
             switch (response.data.role) {

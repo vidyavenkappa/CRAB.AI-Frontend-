@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const StudentSidebar = ({ username, papers, onViewPaper, onUpload }) => {
+const StudentSidebar = ({ name, papers, onViewPaper, onUpload }) => {
     const getStatusIcon = (status) => {
         switch (status) {
             case "Accepted":
@@ -30,10 +30,10 @@ const StudentSidebar = ({ username, papers, onViewPaper, onUpload }) => {
                                 fontSize: "2rem"
                             }}
                         >
-                            {username.charAt(0)}
+                            {name.charAt(0)}
                         </div>
                     </div>
-                    <h5 className="card-title">{username}</h5>
+                    <h5 className="card-title">{name}</h5>
                     <p className="card-text text-muted">Student</p>
                     {/* <div className="d-grid gap-2">
                         <motion.button

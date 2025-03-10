@@ -20,6 +20,8 @@ export default function Header() {
         localStorage.removeItem('userToken');
         localStorage.removeItem('role');
         localStorage.removeItem('username');
+        localStorage.removeItem('name');
+        localStorage.removeItem('user_id');
         setIsLoggedIn(false);
         navigate('/'); // Navigate to home page after logout
     };

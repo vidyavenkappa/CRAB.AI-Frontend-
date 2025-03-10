@@ -16,7 +16,6 @@ export default function StudentDashboard() {
     const [selectedPaperId, setSelectedPaperId] = useState(null);
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [uploadForm, setUploadForm] = useState({
-        title: "",
         conference: "",
         file: null,
         comments: ""
@@ -24,7 +23,7 @@ export default function StudentDashboard() {
     const [submitting, setSubmitting] = useState(false);
     const [viewMode, setViewMode] = useState("grid"); // "grid" or "detail"
     const [uploadAlert, setUploadAlert] = useState({ show: false, message: '' });
-    const username = localStorage.getItem('username') ? localStorage.getItem('username') : "JohnDoe"; // This would come from your auth context
+    const name = localStorage.getItem('name') ? localStorage.getItem('name') : "John Doe"; // This would come from your auth context
 
     const conferences = [
         { value: "ICML", label: "International Conference on Machine Learning (ICML)" },
@@ -39,7 +38,7 @@ export default function StudentDashboard() {
 
     const fetchPapers = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/students/1/papers`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/students/${localStorage.getItem('user_id')}/papers`);
             const data = await response.json();
 
             setPapers(Array.isArray(data) ? data : []);
@@ -80,7 +79,7 @@ export default function StudentDashboard() {
         formData.append("conference", uploadForm.conference);
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/students/1/upload`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/students/${localStorage.getItem('user_id')}/upload`, {
                 method: "POST",
                 body: formData
             });
@@ -110,7 +109,7 @@ export default function StudentDashboard() {
 
     const handleDeletePaper = async (id) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/students/1/papers/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/students/${localStorage.getItem('user_id')}/papers/${id}`, {
                 method: "DELETE"
             });
 
@@ -119,7 +118,7 @@ export default function StudentDashboard() {
             }
 
             // ✅ Fetch the updated paper list
-            const updatedPapersResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/students/1/papers`);
+            const updatedPapersResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/students/${localStorage.getItem('user_id')}/papers`);
             const updatedPapers = await updatedPapersResponse.json();
 
             setPapers(Array.isArray(updatedPapers) ? updatedPapers : []);
@@ -193,7 +192,7 @@ export default function StudentDashboard() {
                     {/* Sidebar - only shown on large screens or when in grid view on small screens */}
                     {viewMode === "grid" || (viewMode === "detail" && window.innerWidth >= 992) ? (
                         <StudentSidebar
-                            username={username}
+                            name={name}
                             papers={papers}
                             onViewPaper={(paper) => {
                                 setSelectedPaperId(paper.id);

@@ -84,7 +84,7 @@ const PaperDetails = ({ paperId, onBack, onDelete }) => {
                                 <strong>Conference:</strong> {paper.paper.conference}
                             </p>
                             <p>
-                                <strong>Uploaded:</strong> {paper.paper.uploadDate}
+                                <strong>Uploaded:</strong> {paper.paper.date.split('T')[0]}
                             </p>
                         </div>
                         <div className="col-md-6">

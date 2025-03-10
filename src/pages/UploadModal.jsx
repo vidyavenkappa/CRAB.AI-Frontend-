@@ -28,7 +28,7 @@ const UploadModal = ({
                     </div>
                     <div className="modal-body">
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                                 <label htmlFor="title" className="form-label">Paper Title</label>
                                 <input
                                     type="text"
@@ -39,7 +39,7 @@ const UploadModal = ({
                                     onChange={handleInputChange}
                                     required
                                 />
-                            </div>
+                            </div> */}
                             <div className="mb-3">
                                 <label htmlFor="conference" className="form-label">Target Conference</label>
                                 <select

@@ -4,6 +4,7 @@ import { mockPapers } from "../utils/mockData";
 import './Home.css';
 import SearchBar from '../components/SearchBar'; // Make sure the path is correct
 import './CustomTabStyles.css';
+import axios from "axios";
 
 export default function ReviewerDashboard() {
     const [papers, setPapers] = useState([]);
@@ -13,15 +14,23 @@ export default function ReviewerDashboard() {
     const [viewMode, setViewMode] = useState("list"); // "list" or "detail"
     const [activeTab, setActiveTab] = useState("needReview"); // "needReview", "accepted", "rejected"
     const [reviewerNote, setReviewerNote] = useState("");
-    const [reviewGuidelineUrl, setReviewGuidelineUrl] = useState("");
+    const [reviewGuidelines, setReviewGuidelines] = useState("");
+    const [reviewGuidelineFile, setReviewGuidelineFile] = useState("");
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [filters, setFilters] = useState({
         topic: "all",
         university: "all",
         region: "all"
     });
+
+    const [activeTabGuidelines, setActiveTabGuidelines] = useState("text");
+
+    const handleTabGuidelinesChange = (tab) => {
+        setActiveTabGuidelines(tab);
+    };
 
     // Load mock data
     useEffect(() => {
@@ -59,9 +68,9 @@ export default function ReviewerDashboard() {
         setReviewerNote(e.target.value);
     };
 
-    const handleGuidelineUrlChange = (e) => {
-        setReviewGuidelineUrl(e.target.value);
-    };
+    // const handleGuidelineUrlChange = (e) => {
+    //     // setReviewGuidelineUrl(e.target.value);
+    // };
 
     const handleDecision = (decision) => {
         // In a real app, you'd make an API call to update the paper status
@@ -151,6 +160,30 @@ export default function ReviewerDashboard() {
     const fadeInUp = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 }
+    };
+
+
+    const handleSubmitGuidelines = async () => {
+        setIsSubmitting(true);
+        const formData = new FormData();
+
+        if (activeTabGuidelines === "text") {
+            formData.append("guidelines", reviewGuidelines);
+        } else if (activeTabGuidelines === "file" && reviewGuidelineFile) {
+            formData.append("file", reviewGuidelineFile);
+        }
+
+        try {
+            await axios.post("/api/review-guidelines", formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            });
+            alert("Review guidelines updated successfully!");
+        } catch (error) {
+            console.error("Error updating guidelines:", error);
+            alert("Failed to update review guidelines.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
 
@@ -256,9 +289,32 @@ export default function ReviewerDashboard() {
                 </div>
 
                 <div className="row">
+
                     {/* Sidebar - visible only in list view */}
                     {viewMode === "list" && (
+
                         <div className="col-lg-3 mb-4">
+                            <div className="card border-0 shadow-sm mb-4">
+                                <div className="card-body text-center">
+                                    <div className="mb-3">
+                                        <div
+                                            className="rounded-circle mx-auto d-flex align-items-center justify-content-center"
+                                            style={{
+                                                width: "80px",
+                                                height: "80px",
+                                                background: "linear-gradient(to right, #4361ee, #3a0ca3)",
+                                                color: "white",
+                                                fontSize: "2rem"
+                                            }}
+                                        >
+                                            {localStorage.getItem('name').charAt(0)}
+                                        </div>
+                                    </div>
+                                    <h5 className="card-title">{localStorage.getItem('name')}</h5>
+                                    <p className="card-text text-muted">Reviewer</p>
+
+                                </div>
+                            </div>
                             <motion.div
                                 className="card border-0 shadow-sm mb-4"
                                 initial="hidden"
@@ -270,7 +326,7 @@ export default function ReviewerDashboard() {
                                     <h5 className="mb-0">Filters</h5>
                                 </div>
                                 <div className="card-body">
-                                    <div className="mb-3">
+                                    {/* <div className="mb-3">
                                         <label className="form-label">Topic</label>
                                         <select
                                             className="form-select"
@@ -324,7 +380,68 @@ export default function ReviewerDashboard() {
                                         <div className="form-text">
                                             This URL will be used by the AI to follow specific conference review guidelines.
                                         </div>
+                                    </div> */}
+                                    <div className="mb-3">
+                                        <label className="form-label">Review Guidelines</label>
+                                        <ul className="nav nav-tabs" id="guidelinesTab" role="tablist">
+                                            <li className="nav-item" role="presentation">
+                                                <button
+                                                    className={`nav-link ${activeTabGuidelines === "text" ? "active" : ""}`}
+                                                    id="text-tab"
+                                                    type="button"
+                                                    role="tab"
+                                                    aria-controls="text"
+                                                    aria-selected={activeTabGuidelines === "text"}
+                                                    onClick={() => handleTabGuidelinesChange("text")}
+                                                >
+                                                    Enter Text
+                                                </button>
+                                            </li>
+                                            <li className="nav-item" role="presentation">
+                                                <button
+                                                    className={`nav-link ${activeTabGuidelines === "file" ? "active" : ""}`}
+                                                    id="file-tab"
+                                                    type="button"
+                                                    role="tab"
+                                                    aria-controls="file"
+                                                    aria-selected={activeTabGuidelines === "file"}
+                                                    onClick={() => handleTabGuidelinesChange("file")}
+                                                >
+                                                    Upload File
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <div className="tab-content mt-3" id="guidelinesTabContent">
+                                            <div className={`tab-pane fade ${activeTabGuidelines === "text" ? "show active" : ""}`} id="text" role="tabpanel" aria-labelledby="text-tab">
+                                                <textarea
+                                                    className="form-control"
+                                                    placeholder="Enter conference review guidelines"
+                                                    value={reviewGuidelines}
+                                                    onChange={(e) => setReviewGuidelines(e.target.value)}
+                                                    rows="4"
+                                                ></textarea>
+                                            </div>
+                                            <div className={`tab-pane fade ${activeTabGuidelines === "file" ? "show active" : ""}`} id="file" role="tabpanel" aria-labelledby="file-tab">
+                                                <input
+                                                    type="file"
+                                                    className="form-control"
+                                                    onChange={(e) => setReviewGuidelineFile(e.target.files[0])}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="form-text">
+                                            Choose to either enter the review guidelines as text or upload a file. The AI will use this to follow specific conference review guidelines.
+                                        </div>
+                                        <button
+                                            className="btn btn-primary mt-3"
+                                            onClick={handleSubmitGuidelines}
+                                            disabled={isSubmitting}
+                                        >
+                                            {isSubmitting ? "Updating..." : "Update Guidelines"}
+                                        </button>
                                     </div>
+
+
                                 </div>
                             </motion.div>
 
