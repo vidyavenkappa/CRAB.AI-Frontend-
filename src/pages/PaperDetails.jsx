@@ -66,7 +66,7 @@ const PaperDetails = ({ paperId, onBack }) => {
     return (
         <div className="container py-4">
             <motion.button
-                className="btn btn-secondary mb-3"
+                className="btn btn-secondary mb-3 primary-button"
                 onClick={onBack}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
