@@ -229,6 +229,7 @@ export default function StudentDashboard() {
                                         onClick={() => setShowUploadModal(true)}
                                         whileHover={{ scale: 1.03 }}
                                         whileTap={{ scale: 0.98 }}
+                                        disabled={papers && papers.length >= 3}
                                     >
                                         <span className="me-2">+</span> Upload Paper
                                     </motion.button>
