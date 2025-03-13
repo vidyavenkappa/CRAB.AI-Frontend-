@@ -378,9 +378,9 @@ export default function Home() {
                                 <h3 className="stats-card-title">Time Saved</h3>
                                 <div className="progress-container">
                                     <div className="progress-bar">
-                                        <div className="progress-fill" style={{ width: "75%" }}></div>
+                                        <div className="progress-fill" style={{ width: "100%" }}></div>
                                     </div>
-                                    <span className="progress-value">200%</span>
+                                    <span className="progress-value">100%</span>
                                 </div>
                             </motion.div>
                         </motion.div>
