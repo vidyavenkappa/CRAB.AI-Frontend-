@@ -729,7 +729,7 @@ export default function ReviewerDashboard() {
                                                         <p>
                                                             <strong>PDF:</strong>{" "}
                                                             <motion.a
-                                                                href={selectedPaper?.pdfUrl}
+                                                                href={`${process.env.PUBLIC_URL}/uploads/${selectedPaper.pdfUrl}`}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
                                                                 className="secondary-button btn-sm"
@@ -754,36 +754,36 @@ export default function ReviewerDashboard() {
                                                 </div>
 
                                                 {/* Paper Summary */}
-                                                <h5 className="mb-3">Paper Summary <small className="text-muted">(AI-generated)</small></h5>
-                                                <div className="accordion mb-4" id="summaryAccordion">
-                                                    {/* {console.log(JSON.parse(selectedPaper.summary))} */}
-                                                    {selectedPaper?.summary && Object.entries(selectedPaper.summary).map(([key, value]) => (
-                                                        <div className="accordion-item border-0 mb-2 shadow-sm" key={key}>
-                                                            <h2 className="accordion-header">
-                                                                <button
-                                                                    className="accordion-button collapsed"
-                                                                    type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target={`#collapse${key}`}
-                                                                    aria-expanded="false"
-                                                                    onClick={() => setOpenSummary(key)}
+                                                {selectedPaper?.status === "Reviewed" && <><h5 className="mb-3">Paper Summary <small className="text-muted">(AI-generated)</small></h5>
+                                                    <div className="accordion mb-4" id="summaryAccordion">
+                                                        {/* {console.log(JSON.parse(selectedPaper.summary))} */}
+                                                        {selectedPaper?.summary && Object.entries(selectedPaper.summary).map(([key, value]) => (
+                                                            <div className="accordion-item border-0 mb-2 shadow-sm" key={key}>
+                                                                <h2 className="accordion-header">
+                                                                    <button
+                                                                        className="accordion-button collapsed"
+                                                                        type="button"
+                                                                        data-bs-toggle="collapse"
+                                                                        data-bs-target={`#collapse${key}`}
+                                                                        aria-expanded="false"
+                                                                        onClick={() => setOpenSummary(key)}
 
-                                                                >
-                                                                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                                                                </button>
-                                                            </h2>
-                                                            {/* <div
+                                                                    >
+                                                                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                                                                    </button>
+                                                                </h2>
+                                                                {/* <div
                                                                 id={`collapse${key}`}
                                                                 className="accordion-collapse collapse"
                                                                 data-bs-parent="#summaryAccordion"
                                                             > */}
-                                                            {openSummary == key && <div className="accordion-body">
-                                                                {value}
-                                                            </div>}
-                                                            {/* </div> */}
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                                                {openSummary == key && <div className="accordion-body">
+                                                                    {value}
+                                                                </div>}
+                                                                {/* </div> */}
+                                                            </div>
+                                                        ))}
+                                                    </div></>}
 
                                                 {/* AI Reviews */}
                                                 <h5 className="mb-3">AI Reviews</h5>
@@ -923,7 +923,7 @@ export default function ReviewerDashboard() {
                                                 )}
 
                                                 {/* Previous Reviewer Decision (if any) */}
-                                                {console.log(selectedPaper.finalDecision)}
+
                                                 {selectedPaper?.finalDecision && (
                                                     <div className="mb-4">
                                                         <h5 className="mb-3">Final Decision</h5>
@@ -1019,6 +1019,55 @@ export default function ReviewerDashboard() {
                                             </motion.div>
                                         </div>
                                     )}
+                                    {selectedPaper?.status !== "Reviewed" && (
+
+                                        <div className="col-md-4">
+                                            <motion.div
+                                                className="card border-0 shadow-sm sticky-top"
+                                                style={{ top: "20px" }}
+                                                initial="hidden"
+                                                animate="visible"
+                                                transition={{ duration: 0.3, delay: 0.1 }}
+                                                variants={fadeInUp}
+                                            >
+                                                <div className="card-header bg-white">
+                                                    <h5 className="mb-3">Paper Summary <small className="text-muted">(AI-generated)</small></h5>
+                                                </div>
+                                                <div className="card-body">
+                                                    <div className="accordion mb-4" id="summaryAccordion">
+                                                        {/* {console.log(JSON.parse(selectedPaper.summary))} */}
+                                                        {selectedPaper?.summary && Object.entries(selectedPaper.summary).map(([key, value]) => (
+                                                            <div className="accordion-item border-0 mb-2 shadow-sm" key={key}>
+                                                                <h2 className="accordion-header">
+                                                                    <button
+                                                                        className="accordion-button collapsed"
+                                                                        type="button"
+                                                                        data-bs-toggle="collapse"
+                                                                        data-bs-target={`#collapse${key}`}
+                                                                        aria-expanded="false"
+                                                                        onClick={() => setOpenSummary(key)}
+
+                                                                    >
+                                                                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                                                                    </button>
+                                                                </h2>
+                                                                {/* <div
+                                                                id={`collapse${key}`}
+                                                                className="accordion-collapse collapse"
+                                                                data-bs-parent="#summaryAccordion"
+                                                            > */}
+                                                                {openSummary == key && <div className="accordion-body">
+                                                                    {value}
+                                                                </div>}
+                                                                {/* </div> */}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </div>
+                                    )}
+
                                 </div>
                             </>
                         )}
