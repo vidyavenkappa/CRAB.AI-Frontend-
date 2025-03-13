@@ -34,12 +34,12 @@ export default function Home() {
         {
             icon: "🔍",
             title: "Multi-Model Analysis",
-            description: "Leveraging 5 distinct LLMs (Gemini, Claude, ChatGPT, DeepSeek, and Perplexity AI) for comprehensive paper evaluation."
+            description: "Leveraging 3 distinct LLMs (Gemini, DeepSeek, and Perplexity AI) for comprehensive paper evaluation."
         },
         {
             icon: "⏱️",
             title: "Rapid Turnaround",
-            description: "Reduces review time from 3-4 months to just 1-2 weeks with automated, objective assessments."
+            description: "Reduces review time from 4 months to just 1 weeks with automated, objective assessments."
         },
         {
             icon: "🎯",
@@ -178,7 +178,7 @@ export default function Home() {
                             transition={{ duration: 0.5 }}
                             className="stat-item"
                         >
-                            <div className="stat-number">5</div>
+                            <div className="stat-number">3</div>
                             <div className="stat-label">AI Models</div>
                         </motion.div>
 
@@ -189,7 +189,7 @@ export default function Home() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="stat-item"
                         >
-                            <div className="stat-number">2x</div>
+                            <div className="stat-number">10x</div>
                             <div className="stat-label">Faster Feedback</div>
                         </motion.div>
 
@@ -338,7 +338,7 @@ export default function Home() {
                                         </div>
                                         <div className="user-feature-content">
                                             <h3 className="user-feature-title">For Authors</h3>
-                                            <p className="user-feature-description">Submit up to five research papers, receive AI-generated feedback, and submit to specific conferences.</p>
+                                            <p className="user-feature-description">Submit up to three research papers, receive AI-generated feedback, and submit to specific conferences.</p>
                                         </div>
                                     </div>
 
@@ -380,7 +380,7 @@ export default function Home() {
                                     <div className="progress-bar">
                                         <div className="progress-fill" style={{ width: "75%" }}></div>
                                     </div>
-                                    <span className="progress-value">75%</span>
+                                    <span className="progress-value">200%</span>
                                 </div>
                             </motion.div>
                         </motion.div>
